@@ -1,30 +1,37 @@
 {
-  "name": "backend",
+  "name": "clo-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Express Closs API",
   "main": "./src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./src/app/index.ts",
-    "build": "npm install && npx tsc",
-    "start": "node dist/index.js"
+    "start": "tsc && node dist/server.js",
+    "start:dev": "tsc && concurrently \"tsc -w\" \"nodemon dist/server.js\"",
+    "start:prod": "SET NODE_ENV=production && npm start",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\""
   },
   "keywords": [],
-  "author": "",
+  "author": "Daniel Zabala",
   "license": "ISC",
   "dependencies": {
+    "class-validator": "^0.14.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
+    "morgan": "^1.10.0",
     "mysql2": "3.9.2",
-    "reflect-metadata": "^0.2.1",
-    "typeorm": "0.3.20"
+    "reflect-metadata": "0.2.1",
+    "typeorm": "0.3.20",
+    "typeorm-naming-strategies": "^4.1.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/morgan": "^1.9.9",
     "@types/node": "^20.11.27",
+    "concurrently": "^8.2.2",
     "nodemon": "^3.1.0",
+    "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2"
   }

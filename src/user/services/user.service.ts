@@ -1,5 +1,9 @@
-const getUsers = async () => {
-  return;
+import { User } from '../models/user.entity';
+
+const getUsers = async (): Promise<User[]> => {
+  const user = await User.find();
+
+  return user;
 };
 
 const getUserById = async (id: string) => {

@@ -1,15 +1,17 @@
-version: "3.8"
+version: '3.8'
 services:
-  mysql:
+  jvg_db:
     image: mysql:8.0
-    container_name: clo_db
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: db_crud_clo
-      MYSQL_USER: user_crud_clo
-      MYSQL_PASSWORD: root
     volumes:
-      - ./mysql:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --init-file /docker-entrypoint-initdb.d/init.sql
     ports:
-      - "3308:3306"
+      - '3308:3306'
+    environment:
+      MYSQL_DATABASE: jvg_db
+      MYSQL_ROOT_USER: jvg_25
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: jvg_25
+      MYSQL_PASSWORD: root
+    container_name: jvg_container
+    restart: always
