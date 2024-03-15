@@ -1,17 +1,25 @@
 import { Request, Response } from 'express';
 import { PurchaseService } from '../services/purchase.service';
+import { HttpResponse } from '../../shared/response/http.response';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 export class PurchaseController {
   constructor(
     private readonly purchaseService: PurchaseService = new PurchaseService(),
+    private readonly httpResponse: HttpResponse = new HttpResponse(),
   ) {}
 
   async getPurchases(_req: Request, res: Response) {
     try {
       const data = await this.purchaseService.findAllPurchase();
-      res.status(200).json(data);
+
+      if (data.length === 0) {
+        return this.httpResponse.NotFound(res, 'Purchases not found');
+      }
+
+      return this.httpResponse.Ok(res, data);
     } catch (error) {
-      console.error(error);
+      return this.httpResponse.Error(res, error);
     }
   }
 
@@ -19,38 +27,56 @@ export class PurchaseController {
     const { id } = req.params;
     try {
       const data = await this.purchaseService.findPurchaseById(id);
-      res.status(200).json(data);
+
+      if (!data) {
+        return this.httpResponse.NotFound(res, 'Purchase not found');
+      }
+
+      return this.httpResponse.Ok(res, data);
     } catch (error) {
-      console.error(error);
+      return this.httpResponse.Error(res, error);
     }
   }
 
   async createPurchase(req: Request, res: Response) {
     try {
       const data = await this.purchaseService.createPurchase(req.body);
-      res.status(200).json(data);
+      return this.httpResponse.Ok(res, data);
     } catch (error) {
-      console.error(error);
+      return this.httpResponse.Error(res, error);
     }
   }
 
   async updatePurchase(req: Request, res: Response) {
     const { id } = req.params;
     try {
-      const data = await this.purchaseService.updatePurchase(id, req.body);
-      res.status(200).json(data);
+      const data: UpdateResult = await this.purchaseService.updatePurchase(
+        id,
+        req.body,
+      );
+
+      if (!data.affected) {
+        return this.httpResponse.NotFound(res, 'Failed to update purchase');
+      }
+
+      return this.httpResponse.Ok(res, data);
     } catch (error) {
-      console.error(error);
+      return this.httpResponse.Error(res, error);
     }
   }
 
   async deletePurchase(req: Request, res: Response) {
     const { id } = req.params;
     try {
-      const data = await this.purchaseService.deletePurchase(id);
-      res.status(200).json(data);
+      const data: DeleteResult = await this.purchaseService.deletePurchase(id);
+
+      if (!data.affected) {
+        return this.httpResponse.NotFound(res, 'Failed to delete purchase');
+      }
+
+      return this.httpResponse.Ok(res, data);
     } catch (error) {
-      console.error(error);
+      return this.httpResponse.Error(res, error);
     }
   }
 }

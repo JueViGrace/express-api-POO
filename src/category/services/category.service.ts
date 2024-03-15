@@ -23,9 +23,9 @@ export class CategoryService extends BaseService<CategoryEntity> {
 
   async updateCategory(
     id: string,
-    updateDto: UpdateCategoryDTO,
+    body: UpdateCategoryDTO,
   ): Promise<UpdateResult> {
-    return (await this.execRepository).update(id, updateDto);
+    return (await this.execRepository).update(id, body);
   }
 
   async deleteCategory(id: string): Promise<DeleteResult> {

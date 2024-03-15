@@ -23,9 +23,9 @@ export class CustomerService extends BaseService<CustomerEntity> {
 
   async updateCustomer(
     id: string,
-    updateDto: UpdateCustomerDTO,
+    body: UpdateCustomerDTO,
   ): Promise<UpdateResult> {
-    return (await this.execRepository).update(id, updateDto);
+    return (await this.execRepository).update(id, body);
   }
 
   async deleteCustomer(id: string): Promise<DeleteResult> {

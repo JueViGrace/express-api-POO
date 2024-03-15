@@ -4,7 +4,7 @@ import morgan from 'morgan';
 import { UserRouter } from './user/router/user.router';
 import { ConfigServer } from './config/config';
 import { DataSource } from 'typeorm';
-import { PurchaseRouter } from './purchase/router/purchase.router';
+import { PurchaseRouter } from './purchase/routers/purchase.router';
 import { ProductRouter } from './product/router/product.router';
 import { CustomerRouter } from './customer/router/customer.router';
 import { CategoryRouter } from './category/router/category.router';

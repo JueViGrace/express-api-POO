@@ -23,9 +23,9 @@ export class ProductService extends BaseService<ProductEntity> {
 
   async updateProduct(
     id: string,
-    updateDto: UpdateProductDTO,
+    body: UpdateProductDTO,
   ): Promise<UpdateResult> {
-    return (await this.execRepository).update(id, updateDto);
+    return (await this.execRepository).update(id, body);
   }
 
   async deleteProduct(id: string): Promise<DeleteResult> {

@@ -9,4 +9,7 @@ export class CustomerDTO {
   @IsNotEmpty()
   @IsNumber()
   dni: number;
+
+  @IsNotEmpty()
+  user: UserEntity;
 }

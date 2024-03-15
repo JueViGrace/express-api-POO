@@ -1,11 +1,15 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { CustomerEntity } from '../../../customer/models/entities/customer.entity';
 
 export class UpdatePurchaseDTO {
   @IsOptional()
   @IsString()
-  status: string;
+  status?: string;
 
   @IsOptional()
   @IsString()
-  paymentMethod: string;
+  paymentMethod?: string;
+
+  @IsOptional()
+  customer?: CustomerEntity;
 }
