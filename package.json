@@ -1,7 +1,7 @@
 {
-  "name": "clo-server",
+  "name": "ecommerce-server",
   "version": "1.0.0",
-  "description": "Express Closs API",
+  "description": "Express API",
   "main": "./src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
