@@ -1,9 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
-import { UserRouter } from './user/routes/user.router';
+import { UserRouter } from './user/router/user.router';
 import { ConfigServer } from './config/config';
-import { Connection, DataSource, createConnection } from 'typeorm';
+import { DataSource } from 'typeorm';
+import { PurchaseRouter } from './purchase/router/purchase.router';
+import { ProductRouter } from './product/router/product.router';
+import { CustomerRouter } from './customer/router/customer.router';
+import { CategoryRouter } from './category/router/category.router';
 
 class ServerBootstrap extends ConfigServer {
   public app: express.Application = express();
@@ -29,39 +33,22 @@ class ServerBootstrap extends ConfigServer {
   }
 
   routers(): Array<express.Router> {
-    return [new UserRouter().router];
-  }
-
-  async dbConnect(): Promise<DataSource> {
-    return await this.createDataSource().initialize();
+    return [
+      new UserRouter().router,
+      new PurchaseRouter().router,
+      new ProductRouter().router,
+      new CustomerRouter().router,
+      new CategoryRouter().router,
+    ];
   }
 
   public listen() {
     this.app.listen(this.port, () => {
-      console.log(`Server running on port: ${this.port}`);
+      console.log(`
+      [server]: Server is running at ${this.port}
+      `);
     });
   }
 }
 
 new ServerBootstrap();
-
-// async function main() {
-//   await AppDataSource.initialize()
-//     .then(() => {
-//       console.log('Data Source has been initialized!');
-//     })
-//     .catch((err) => {
-//       console.error('Error during Data Source initialization', err);
-//     });
-
-//   const app: Express = appSetup();
-
-//   app.listen(port, host);
-// }
-
-// main().then(() => {
-//   console.log(`
-//     [server]: Server is running at http://${host}:${port}
-//     NODE_ENV: ${process.env.NODE_ENV}
-//     `);
-// });

@@ -48,12 +48,16 @@ export abstract class ConfigServer {
       entities: [__dirname + '/../**/*.entity{.ts,.js}'],
       migrations: [__dirname + '/../../migrations/*{.ts,.js}'],
       synchronize: this.getBooleanEnv('DB_SYNCHRONIZE'),
-      logging: this.getBooleanEnv('DB_LOGGIN'),
+      logging: false,
       namingStrategy: new SnakeNamingStrategy(),
     };
   }
 
   public createDataSource(): DataSource {
     return new DataSource(this.typeORMConfig);
+  }
+
+  async dbConnect(): Promise<DataSource> {
+    return await this.createDataSource().initialize();
   }
 }

@@ -1,31 +1,34 @@
-import { User } from '../models/user.entity';
+import { DeleteResult, UpdateResult } from 'typeorm';
+import { BaseService } from '../../config/base.service';
+import { UserDTO } from '../models/dto/user.dto';
+import { UserEntity } from '../models/entities/user.entity';
+import { UpdateUserDTO } from '../models/dto/update-user.dto';
 
-const getUsers = async (): Promise<User[]> => {
-  const user = await User.find();
+export class UserService extends BaseService<UserEntity> {
+  constructor() {
+    super(UserEntity);
+  }
 
-  return user;
-};
+  async findAllUser(): Promise<UserEntity[]> {
+    return (await this.execRepository).find();
+  }
 
-const getUserById = async (id: string) => {
-  return;
-};
+  async findUserById(id: string): Promise<UserEntity | null> {
+    return (await this.execRepository).findOne({ where: [{ id }] });
+  }
 
-const createUser = async (body: any) => {
-  return;
-};
+  async createUser(body: UserDTO): Promise<UserEntity> {
+    return (await this.execRepository).save(body);
+  }
 
-const updateUser = async (id: string, body: any) => {
-  return;
-};
+  async updateUser(
+    id: string,
+    updateDto: UpdateUserDTO,
+  ): Promise<UpdateResult> {
+    return (await this.execRepository).update(id, updateDto);
+  }
 
-const deleteUser = async (id: string) => {
-  return;
-};
-
-export default {
-  getUsers,
-  getUserById,
-  createUser,
-  updateUser,
-  deleteUser,
-};
+  async deleteUser(id: string): Promise<DeleteResult> {
+    return (await this.execRepository).softDelete(id);
+  }
+}
