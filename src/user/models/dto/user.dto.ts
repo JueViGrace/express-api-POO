@@ -30,3 +30,9 @@ export class UserDTO extends BaseDTO {
   @IsString()
   province: string;
 }
+
+export enum RoleType {
+  USER = 'USER',
+  CUSTOMER = 'CUSTOMER',
+  ADMIN = 'ADMIN',
+}

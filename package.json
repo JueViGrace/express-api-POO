@@ -2,13 +2,16 @@
   "name": "ecommerce-server",
   "version": "1.0.0",
   "description": "Express API",
-  "main": "./src/index.ts",
+  "main": "dist/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm install && npx tsc",
     "start": "npm run build && node dist/server.js",
     "start:dev": "npm run build && concurrently \"tsc -w\" \"nodemon dist/server.js\"",
     "start:prod": "SET NODE_ENV=production && npm start",
+    "typeorm": "npx typeorm-ts-node-commonjs -d ./src/config/data.source.ts",
+    "m:gen": "npm run typeorm migration:generate",
+    "m:run": "npm run typeorm migration:run",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\""
   },
   "keywords": [],

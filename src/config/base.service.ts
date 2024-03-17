@@ -13,7 +13,7 @@ export class BaseService<T extends BaseEntity> extends ConfigServer {
   async initRepository<T extends ObjectLiteral>(
     e: EntityTarget<T>,
   ): Promise<Repository<T>> {
-    const getDataSource = await this.dbConnect();
+    const getDataSource = await this.initConnect;
 
     return getDataSource.getRepository(e);
   }

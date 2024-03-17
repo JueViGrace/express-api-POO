@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
@@ -17,16 +18,9 @@ class ServerBootstrap extends ConfigServer {
     super();
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
+    this.dbConnect();
     this.app.use(morgan('dev'));
     this.app.use(cors());
-
-    this.dbConnect()
-      .then(() => {
-        console.log('Data Source has been initialized!');
-      })
-      .catch((err) => {
-        console.error('Error during Data Source initialization', err);
-      });
 
     this.app.use('/api', this.routers());
     this.listen();
@@ -40,6 +34,16 @@ class ServerBootstrap extends ConfigServer {
       new CustomerRouter().router,
       new CategoryRouter().router,
     ];
+  }
+
+  async dbConnect(): Promise<DataSource | void> {
+    return this.initConnect
+      .then(() => {
+        console.log('Data Source has been initialized!');
+      })
+      .catch((err: any) => {
+        console.error('Error during Data Source initialization', err);
+      });
   }
 
   public listen() {
