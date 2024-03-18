@@ -4,7 +4,7 @@ import { UserEntity } from '../../../user/models/entities/user.entity';
 export class UpdateCustomerDTO {
   @IsOptional()
   @IsString()
-  productName?: string;
+  address?: string;
 
   @IsOptional()
   @IsNumber()

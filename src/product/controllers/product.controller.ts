@@ -38,6 +38,21 @@ export class ProductController {
     }
   }
 
+  async getProductWithRelation(req: Request, res: Response) {
+    const { id } = req.params;
+    try {
+      const data = await this.productService.findProductWithRelation(id);
+
+      if (!data) {
+        return this.httpResponse.NotFound(res, 'Product not found');
+      }
+
+      return this.httpResponse.Ok(res, data);
+    } catch (error) {
+      return this.httpResponse.Error(res, error);
+    }
+  }
+
   async createProduct(req: Request, res: Response) {
     try {
       const data = await this.productService.createProduct(req.body);
@@ -50,7 +65,10 @@ export class ProductController {
   async updateProduct(req: Request, res: Response) {
     const { id } = req.params;
     try {
-      const data: UpdateResult = await this.productService.updateProduct(id, req.body);
+      const data: UpdateResult = await this.productService.updateProduct(
+        id,
+        req.body,
+      );
 
       if (!data.affected) {
         return this.httpResponse.NotFound(res, 'Failed to update product');

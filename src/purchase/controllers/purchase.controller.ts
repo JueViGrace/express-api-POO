@@ -38,6 +38,21 @@ export class PurchaseController {
     }
   }
 
+  async getPurchaseWithRelation(req: Request, res: Response) {
+    const { id } = req.params;
+    try {
+      const data = await this.purchaseService.findPurchaseWithRelation(id);
+
+      if (!data) {
+        return this.httpResponse.NotFound(res, 'Purchase not found');
+      }
+
+      return this.httpResponse.Ok(res, data);
+    } catch (error) {
+      return this.httpResponse.Error(res, error);
+    }
+  }
+
   async createPurchase(req: Request, res: Response) {
     try {
       const data = await this.purchaseService.createPurchase(req.body);

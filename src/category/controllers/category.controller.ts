@@ -38,6 +38,21 @@ export class CategoryController {
     }
   }
 
+  async getCategoryWithRelation(req: Request, res: Response) {
+    const { id } = req.params;
+    try {
+      const data = await this.categoryService.findCategoryWithRelation(id);
+
+      if (!data) {
+        return this.httpResponse.NotFound(res, 'Category not found');
+      }
+
+      return this.httpResponse.Ok(res, data);
+    } catch (error) {
+      return this.httpResponse.Error(res, error);
+    }
+  }
+
   async createCategory(req: Request, res: Response) {
     try {
       const data = await this.categoryService.createCategory(req.body);

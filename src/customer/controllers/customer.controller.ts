@@ -38,6 +38,21 @@ export class CustomerController {
     }
   }
 
+  async getCustomerWithRelation(req: Request, res: Response) {
+    const { id } = req.params;
+    try {
+      const data = await this.customerService.findCustomerWithRelation(id);
+
+      if (!data) {
+        return this.httpResponse.NotFound(res, 'Customer not found');
+      }
+
+      return this.httpResponse.Ok(res, data);
+    } catch (error) {
+      return this.httpResponse.Error(res, error);
+    }
+  }
+
   async createCustomer(req: Request, res: Response) {
     try {
       const data = await this.customerService.createCustomer(req.body);

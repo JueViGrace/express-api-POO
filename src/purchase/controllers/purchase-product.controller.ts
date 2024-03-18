@@ -39,6 +39,22 @@ export class PurchaseProductController {
     }
   }
 
+  async getPurchaseProductsWithRelation(req: Request, res: Response) {
+    const { id } = req.params;
+    try {
+      const data =
+        await this.purchaseProductService.findPurchaseProductWithRelation(id);
+
+      if (!data) {
+        return this.httpResponse.NotFound(res, 'Purchase products not found');
+      }
+
+      return this.httpResponse.Ok(res, data);
+    } catch (error) {
+      return this.httpResponse.Error(res, error);
+    }
+  }
+
   async createPurchaseProducts(req: Request, res: Response) {
     try {
       const data = await this.purchaseProductService.createPurchaseProduct(
@@ -57,7 +73,10 @@ export class PurchaseProductController {
         await this.purchaseProductService.updatePurchaseProduct(id, req.body);
 
       if (!data.affected) {
-        return this.httpResponse.NotFound(res, 'Failed to update purchase products');
+        return this.httpResponse.NotFound(
+          res,
+          'Failed to update purchase products',
+        );
       }
 
       return this.httpResponse.Ok(res, data);
@@ -69,10 +88,14 @@ export class PurchaseProductController {
   async deletePurchaseProducts(req: Request, res: Response) {
     const { id } = req.params;
     try {
-      const data: DeleteResult = await this.purchaseProductService.deletePurchaseProduct(id);
+      const data: DeleteResult =
+        await this.purchaseProductService.deletePurchaseProduct(id);
 
       if (!data.affected) {
-        return this.httpResponse.NotFound(res, 'Failed to delete purchase products');
+        return this.httpResponse.NotFound(
+          res,
+          'Failed to delete purchase products',
+        );
       }
 
       return this.httpResponse.Ok(res, data);

@@ -1,4 +1,4 @@
-import { Column, Entity, Exclusion, OneToOne } from 'typeorm';
+import { Column, Entity, OneToOne } from 'typeorm';
 import { BaseEntity } from '../../../config/base.entity';
 import { CustomerEntity } from '../../../customer/models/entities/customer.entity';
 import { RoleType } from '../dto/user.dto';
@@ -27,7 +27,7 @@ export class UserEntity extends BaseEntity {
   province: string;
 
   @Column({ type: 'enum', enum: RoleType, nullable: false })
-  role: string;
+  role: RoleType;
 
   @OneToOne(() => CustomerEntity, (customer) => customer.user)
   customer: CustomerEntity;

@@ -17,6 +17,16 @@ export class PurchaseService extends BaseService<PurchaseEntity> {
     return (await this.execRepository).findOne({ where: [{ id }] });
   }
 
+  async findPurchaseWithRelation(id: string): Promise<PurchaseEntity | null> {
+    return (await this.execRepository)
+      .createQueryBuilder('purchase')
+      .leftJoinAndSelect('purchase.customer', 'customer')
+      .leftJoinAndSelect('customer.user', 'user')
+      .leftJoinAndSelect('purchase.purchaseProduct', 'purchaseProduct')
+      .where({ id })
+      .getOne();
+  }
+
   async createPurchase(body: PurchaseDTO): Promise<PurchaseEntity> {
     return (await this.execRepository).save(body);
   }
